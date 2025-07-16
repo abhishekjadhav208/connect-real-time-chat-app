@@ -8,7 +8,10 @@ import path from "path";
 import { connectDb } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
-import { app, server,io } from "./lib/socket.js";
+import { server,io } from "./lib/socket.js";
+
+const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(cors({
     origin:"http://localhost:5173",
@@ -17,7 +20,7 @@ app.use(cors({
 app.use(cookieParser());
 
 const PORT=process.env.PORT;
-const __dirname = path.resolve();
+
 
 app.use(express.json({ limit: '10mb' }));
 app.use("/api/auth",authRoutes);
@@ -31,6 +34,8 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   });
 }
+
+server.on("request", app);
 
 server.listen(PORT,()=>{
     console.log("running "+PORT)
