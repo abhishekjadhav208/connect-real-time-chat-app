@@ -16,8 +16,6 @@ dotenv.config();
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
-app.use(express.json());
-app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -25,8 +23,15 @@ app.use(
   })
 );
 
-app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoutes);
+app.use(express.json({ limit: "10mb" }));
+app.use(cookieParser());
+
+try {
+  app.use("/api/auth", authRoutes);
+  app.use("/api/messages", messageRoutes);
+} catch (e) {
+  console.error("❌ Route loading error:", e.message);
+}
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
