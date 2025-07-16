@@ -41,6 +41,19 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+console.log("🔥 Logging all routes...");
+app._router.stack.forEach((middleware) => {
+  if (middleware.route) {
+    console.log(`[ROUTE] ${Object.keys(middleware.route.methods).join(', ').toUpperCase()} ${middleware.route.path}`);
+  } else if (middleware.name === 'router') {
+    middleware.handle.stack.forEach((handler) => {
+      if (handler.route) {
+        console.log(`[ROUTER] ${Object.keys(handler.route.methods).join(', ').toUpperCase()} ${handler.route.path}`);
+      }
+    });
+  }
+});
+
 server.listen(PORT, () => {
   console.log("server is running on PORT:" + PORT);
   connectDB();
