@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
-  const { username: fullName, email, password } = req.body;
+  const { fullName, email, password } = req.body;
   console.log("Incoming data:", req.body);
   console.log("fullName:", fullName);
   try {
@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      fullName: username,
+      fullName,
       email,
       password: hashedPassword,
     });
