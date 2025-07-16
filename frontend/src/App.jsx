@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 
-import SignUpPage from "./pages/SignUpPage";
+import SignUpPage from "./pages/SignUpPage.jsx";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";
